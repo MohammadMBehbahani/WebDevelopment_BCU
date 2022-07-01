@@ -10,6 +10,7 @@ namespace WebDevelopment_BCU.Models
         public bool IsDefault { get; set; } = false;
         public int? Age { get; set; }
         public ICollection<UserOrders> UserOrders { get; set; }
+        public ICollection<UserBasket> UserBasket { get; set; }
 
     }
 }

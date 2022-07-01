@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Login Page";
+}
+@section Style{
+    <link rel="stylesheet" href="~/Client/Asset/Css/RegisterPage.css">
+}
+
+ <section class="menu section-padding">
+     <div class="container">
+         <div class="row">
+             <div class="col-lg-6">
+                    <div class="col-12">
+                        <h2 class="text-center mb-lg-5 mb-4">Login</h2>
+                    </div>
+                    <div class="col-lg-12">
+                        <form action="/Login/Index" method="post" style="max-width:500px;margin:auto">
+                            <div class="input-container">
+                                <i class="fa fa-user icon"></i>
+                                <input class="input-field" type="email" required placeholder="Username" name="UserName">
+                            </div>
+
+                            <div class="input-container">
+                                <i class="fa fa-key icon"></i>
+                                <input class="input-field" type="password" required placeholder="Password" name="Password">
+                            </div>
+
+                            <button type="submit" class="btn">Login</button>
+                        </form>
+                    </div>
+                </div>
+
+             <div class="col-lg-6">
+                 <div class="col-12">
+                     <h2 class="text-center mb-lg-5 mb-4">Register</h2>
+                 </div>
+                 <div class="col-lg-12">
+                     <form action="/Login/CreateAccount" method="post" style="max-width:500px;margin:auto" onsubmit="return validateForm()">
+                         <div class="input-container">
+                             <i class="fa fa-user icon"></i>
+                             <input class="input-field myClassvalidation" type="email"  placeholder="Username" name="Email">
+                             <small></small>
+                         </div>
+
+                         <div class="input-container">
+                             <i class="fa fa-key icon"></i>
+                             <input class="input-field myClassvalidation Password" type="password"  placeholder="Password" name="Password">
+                             <small></small>
+                         </div>
+
+                         <div class="input-container">
+                             <i class="fa fa-key icon"></i>
+                             <input class="input-field myClassvalidation ConfirmPassword" type="password"  placeholder="ConfirmPassword" name="ConfirmPassword">
+                             <small></small>
+                         </div>
+
+                         <button type="submit" class="btn">Register</button>
+                     </form>
+                 </div>
+             </div>
+
+         </div>
+     </div>
+ </section>
+
+ @section Script{
+    <script src="~/Common/js/validation.js"></script>
+}

@@ -1,62 +1,155 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebDevelopment_BCU</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="Mohammad Moghadaszadeh Behbahani">
+
+    <title>Kitchen</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="~/Client/Asset/Css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Client/Asset/Css/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Client/Asset/Css/Custom.css" rel="stylesheet">
     @await RenderSectionAsync("Style", required: false)
+
+
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand" href="#">Online Order</a>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+
+    <nav class="navbar navbar-expand-lg bg-white shadow-lg">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand" href="index.html">
+                Kitchen
+            </a>
+
+            <div class="d-lg-none">
+                <button type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#BookingModal">Reservation</button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/Home/Index">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Product/Index">Product</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Category/Index">Category</a>
+                    </li>
+
+
+
+                    @{
+                        if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Login/Index">Login</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="~/User/Index" class="nav-link">Profile</a>
+                            </li>
+                        }
+                    }
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-none d-lg-block">
+                <button type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#BookingModal">Reservation</button>
+            </div>
+
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer section-padding">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-12">
+                    <h4 class="text-white mb-4 me-5">Crispy Kitchen</h4>
+                </div>
+
+                <div class="col-lg-4 col-md-7 col-xs-12 tooplate-mt30">
+                    <h6 class="text-white mb-lg-4 mb-3">Location</h6>
+
+                    <p>121 Einstein Loop N, Bronx, NY 10475, United States</p>
+
+                    <a href="https://goo.gl/maps/wZVGLA7q64uC1s886" class="custom-btn btn btn-dark mt-2">Directions</a>
+                </div>
+
+                <div class="col-lg-4 col-md-5 col-xs-12 tooplate-mt30">
+                    <h6 class="text-white mb-lg-4 mb-3">Opening Hours</h6>
+
+                    <p class="mb-2">Monday - Friday</p>
+
+                    <p>10:00 AM - 08:00 PM</p>
+
+                    <p>Tel: <a href="tel: 010-02-0340" class="tel-link">010-02-0340</a></p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-xs-12 tooplate-mt30">
+                    <h6 class="text-white mb-lg-4 mb-3">Social</h6>
+
+                    <ul class="social-icon">
+                        <li><a href="#" class="social-icon-link bi-facebook"></a></li>
+
+                        <li><a href="#" class="social-icon-link bi-instagram"></a></li>
+
+                        <li>
+                            <a href="https://twitter.com/search?q=tooplate.com&src=typed_query&f=live" target="_blank"
+                               class="social-icon-link bi-twitter"></a>
                         </li>
 
-                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/Product/Index">Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-
-
+                        <li><a href="#" class="social-icon-link bi-youtube"></a></li>
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="me-1 btn btn-outline-success" type="submit">Search</button>
-                        <a class="me-1 btn btn-outline-dark fa fa-user"></a>
-                        <a class="me-1 btn btn-outline-dark fa fa-sign-in"></a>
-                    </form>
+
+                    <p class="copyright-text tooplate-mt60">
+                        Copyright © 2022 Crispy Kitchen Co., Ltd.
+                        <br>Design: <a rel="nofollow" href="https://www.tooplate.com/" target="_blank">Tooplate</a>
+                    </p>
 
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - WebDevelopment_BCU - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+            </div><!-- row ending -->
+
+        </div><!-- container ending -->
+
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="~/Client/Asset/Js/jquery.min.js"></script>
+    <script src="~/Client/Asset/Js/bootstrap.bundle.min.js"></script>
+    <script src="~/Client/Asset/Js/custom.js"></script>
+    @await RenderSectionAsync("Script", required: false)
 </body>
 </html>

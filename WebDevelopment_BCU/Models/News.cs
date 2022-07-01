@@ -1,6 +1,8 @@
-﻿namespace WebDevelopment_BCU.Models
+﻿using WebDevelopment_BCU.Models.Common;
+
+namespace WebDevelopment_BCU.Models
 {
-    public class News
+    public class News : ModelBase
     {
         public string Title { get; set; }
         public string Caption { get; set; }

@@ -11,5 +11,6 @@ namespace WebDevelopment_BCU.Models
         public int Quantity { get; set; }
         public ICollection<ProductImage> ProductImages { get; set; }
         public ICollection<UserOrderDetails> UserOrderDetails { get; set; }
+        public ICollection<ShoppingCartItem> ShoppingCartItem { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace WebDevelopment_BCU.Models
 {
-    public class Categories:ModelBase
+    public class Category:ModelBase
     {
         public string Name { get; set; }
         public long ParentId { get; set; } = 0;

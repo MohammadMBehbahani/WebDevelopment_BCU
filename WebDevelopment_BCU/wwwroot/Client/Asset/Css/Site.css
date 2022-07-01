@@ -1,0 +1,10 @@
+.MyRow {
+    display: table;
+    width: auto; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+    margin: auto;
+}
+.MyColumn {
+    display: table-cell; /*Optional*/
+}
