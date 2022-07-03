@@ -3,7 +3,7 @@
 namespace WebDevelopment_BCU.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class HomeController : Controller
+    public class NewsController : Controller
     {
         public IActionResult Index()
         {

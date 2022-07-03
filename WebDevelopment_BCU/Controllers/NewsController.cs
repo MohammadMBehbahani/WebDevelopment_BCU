@@ -6,23 +6,24 @@ using WebDevelopment_BCU.Utility;
 
 namespace WebDevelopment_BCU.Controllers
 {
-    public class CategoryController : Controller
+    public class NewsController : Controller
     {
         private readonly DataBaseContext _context;
 
-        public CategoryController(DataBaseContext context)
+        public NewsController(DataBaseContext context)
         {
             _context = context;
         }
 
         public IActionResult Index(RequestGetList dto)
         {
-            var data = _context.Category.OrderByDescending(p => p.Id).AsQueryable();
+            var data = _context.News.OrderByDescending(p => p.Id).AsQueryable();
             var TotalCount = data.Count();
 
             if (!string.IsNullOrWhiteSpace(dto.SearchKey))
             {
-                data = data.Where(p =>  p.Name.Contains(dto.SearchKey)
+                data = data.Where(p => p.Text.Contains(dto.SearchKey)
+                                        || p.Caption.Contains(dto.SearchKey)
 
                                         || p.Id.ToString().Equals(dto.SearchKey)).OrderByDescending(p => p.Id);
 
@@ -34,11 +35,11 @@ namespace WebDevelopment_BCU.Controllers
 
             decimal NumberOfPage = Math.Ceiling(Convert.ToDecimal(rowsCount / pagesize)) + 1;
 
-            var datafinal = new ResultPagination<Category>
+            var datafinal = new ResultPagination<News>
             {
                 CurrentPage = dto.Page ?? 1,
                 NumberOfPage = NumberOfPage,
-                PageSize = dto.PageSize?? 10,
+                PageSize = dto.PageSize ?? 10,
                 Rows = rowsCount,
                 TotalCount = TotalCount,
                 ListData = dataList

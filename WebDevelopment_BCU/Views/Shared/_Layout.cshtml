@@ -20,6 +20,7 @@
     <link href="~/Client/Asset/Css/bootstrap.min.css" rel="stylesheet">
     <link href="~/Client/Asset/Css/bootstrap-icons.css" rel="stylesheet">
     <link href="~/Client/Asset/Css/Custom.css" rel="stylesheet">
+    <link href="~/Common/Css/Custom.css" rel="stylesheet"/>
     @await RenderSectionAsync("Style", required: false)
 
 
@@ -37,9 +38,9 @@
                 Kitchen
             </a>
 
-            <div class="d-lg-none">
+           @* <div class="d-lg-none">
                 <button type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#BookingModal">Reservation</button>
-            </div>
+            </div>*@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
@@ -78,9 +79,9 @@
                 </ul>
             </div>
 
-            <div class="d-none d-lg-block">
+            @*<div class="d-none d-lg-block">
                 <button type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#BookingModal">Reservation</button>
-            </div>
+            </div>*@
 
         </div>
     </nav>
@@ -103,8 +104,6 @@
                     <h6 class="text-white mb-lg-4 mb-3">Location</h6>
 
                     <p>121 Einstein Loop N, Bronx, NY 10475, United States</p>
-
-                    <a href="https://goo.gl/maps/wZVGLA7q64uC1s886" class="custom-btn btn btn-dark mt-2">Directions</a>
                 </div>
 
                 <div class="col-lg-4 col-md-5 col-xs-12 tooplate-mt30">
@@ -134,8 +133,7 @@
                     </ul>
 
                     <p class="copyright-text tooplate-mt60">
-                        Copyright © 2022 Crispy Kitchen Co., Ltd.
-                        <br>Design: <a rel="nofollow" href="https://www.tooplate.com/" target="_blank">Tooplate</a>
+                        Copyright © 2022
                     </p>
 
                 </div>

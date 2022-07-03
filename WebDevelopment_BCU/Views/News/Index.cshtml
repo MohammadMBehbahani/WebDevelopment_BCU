@@ -1,7 +1,7 @@
 ﻿@{
-    ViewData["Title"] = "Category Page";
+    ViewData["Title"] = "News Page";
 }
-@model WebDevelopment_BCU.Utility.ResultPagination<Category>
+@model WebDevelopment_BCU.Utility.ResultPagination<News>
 
 <section class="menu section-padding">
     <div class="container">
@@ -19,7 +19,10 @@
                     </div>
 
                     <div class="menu-info d-flex flex-wrap align-items-center">
-                        <h4 class="mb-0">@item.Name</h4>
+                        <h2 class="mb-0">@item.Title</h2>
+                    </div>
+                    <div class="menu-info d-flex flex-wrap align-items-center">
+                        <h4 class="mb-0">@item.Caption</h4>
                     </div>
                 </div>
             </div>
