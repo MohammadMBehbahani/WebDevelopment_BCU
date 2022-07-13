@@ -13,11 +13,11 @@
             <div class="row">
 
                 <div class="input-field col s6">
-                    <input placeholder="Placeholder" id="Name" type="text" class="validate">
+                    <input id="Name" type="text" class="validate">
                     <label for="Name">Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="file" type="file" class="validate">
+                    <input id="file" type="file">
                 </div>
             </div>
             <div class="modal-footer">
@@ -34,9 +34,7 @@
         <div class="col-md-12">
             <!-- Advanced Tables -->
             <div class="card">
-                <div class="card-action">
-                    Advanced Tables
-                </div>
+                
                 <div class="card-content">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -85,23 +83,26 @@
         var _mdata = new mdata(0, "");
 
         function register() {
-            _mdata.Name = Name.value;
+            if (validateFormJs()) {
+                _mdata.Name = Name.value;
 
-            var formdata = new FormData();
+                var formdata = new FormData();
 
-            formdata.append("Id", _mdata.Id);
-            formdata.append("Name", _mdata.Name);
+                formdata.append("Id", _mdata.Id);
+                formdata.append("Name", _mdata.Name);
 
-            for (var i in file.files) {
-                formdata.append("file", file.files[i]);
+                for (var i in file.files) {
+                    formdata.append("file", file.files[i]);
+                }
+
+                b_file_ajax("/Admin/Category/Post", "Post", formdata, function() {
+                    _mdata.Id = 0;
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000)
+                }, "ok");
             }
 
-            b_file_ajax("/Admin/Category/Post", "Post", formdata, function() {
-                _mdata.Id = 0;
-                setTimeout(() => {
-                    location.reload();
-                }, 2000)
-            }, "ok");
         }
 
         function edit_data(item) {

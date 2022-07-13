@@ -43,9 +43,10 @@ function b_ajax(url, type, data, callbackfunction, message) {
         data: data,
         type: type,
         error: function (code) {
-            if (code == null || code == undefined)
+            if (code.responseText == null || code.responseText == undefined)
                 unknown_error();
-            errorInAjax(code);
+            error_ajax(code.responseText);
+
         },
         success: function (data) {
             ResetInputs();

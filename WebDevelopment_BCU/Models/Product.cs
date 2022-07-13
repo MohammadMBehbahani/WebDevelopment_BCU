@@ -22,6 +22,10 @@ namespace WebDevelopment_BCU.Models
 
         public string Description { get; set; }
 
+        public long CategoryId { get; set; }
+        public virtual Category Category { get; set; }
+
+
         public ICollection<ProductImage> ProductImages { get; set; }
         public ICollection<UserOrderDetails> UserOrderDetails { get; set; }
         public ICollection<ShoppingCartItem> ShoppingCartItem { get; set; }

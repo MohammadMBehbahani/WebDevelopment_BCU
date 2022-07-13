@@ -10,20 +10,6 @@ namespace WebDevelopment_BCU.Models
 
         public List<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
 
-        public int Quantity { get; set; }
-
-        public decimal TotalPrice
-        {
-            get
-            {
-                decimal totalprice = 0;
-                foreach (var item in Items)
-                {
-                    totalprice += item.Product.Price * item.Quantity;
-                }
-                return totalprice;
-            }
-        }
     }
 
     

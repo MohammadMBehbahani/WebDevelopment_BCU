@@ -8,6 +8,26 @@ namespace WebDevelopment_BCU.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "About",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FaceBookLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TwitterLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InstagramLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OpeningDay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OpeningHour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InserDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_About", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -72,6 +92,7 @@ namespace WebDevelopment_BCU.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Caption = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -83,20 +104,19 @@ namespace WebDevelopment_BCU.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Slider",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
                     InserDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Slider", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,7 +232,6 @@ namespace WebDevelopment_BCU.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
                     InserDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -252,6 +271,30 @@ namespace WebDevelopment_BCU.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<long>(type: "bigint", nullable: false),
+                    InserDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductImage",
                 columns: table => new
                 {
@@ -281,7 +324,7 @@ namespace WebDevelopment_BCU.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    UserBasketId = table.Column<long>(type: "bigint", nullable: true),
+                    UserBasketId = table.Column<long>(type: "bigint", nullable: false),
                     InserDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -298,7 +341,7 @@ namespace WebDevelopment_BCU.Migrations
                         column: x => x.UserBasketId,
                         principalTable: "UserBasket",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -330,6 +373,11 @@ namespace WebDevelopment_BCU.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "About",
+                columns: new[] { "Id", "FaceBookLink", "InserDate", "InstagramLink", "Location", "OpeningDay", "OpeningHour", "Tel", "TwitterLink" },
+                values: new object[] { 1L, "f", new DateTime(2022, 7, 7, 13, 20, 48, 135, DateTimeKind.Local).AddTicks(7611), "i", "Loc", "Monday - Friday", "8Am - 4PM", "078", "T" });
+
+            migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
@@ -343,8 +391,8 @@ namespace WebDevelopment_BCU.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Age", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "IsDefault", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "02174cf0–9412–4cfe-afbf-59f706d72cf6", 0, null, "4754208e-00c7-44e8-a86c-4e20dfbd5ee8", "MainAdmin@email.com", true, "Admin", null, false, false, null, "MainAdmin@email.com", "MainAdmin", "AQAAAAEAACcQAAAAEMSbqtmWuAb/UojfsN/N01AmMM1VRV4A4YwvdxlXYFLmLGux8B56PrA9I3XIAqzIMA==", null, false, "fdc70560-de47-4df7-85fb-4dd4c3632866", false, "MainAdmin" },
-                    { "c49c10c7-f5cb-4504-a528-c78a9012a457", 0, null, "d614194a-d225-4a97-a5d8-67a971c86a04", "normaluser@email.com", true, null, null, false, false, null, "normaluser@email.com", "normaluser", "AQAAAAEAACcQAAAAEPXKg9cLCyXMHmP8q1o+0+xy2N3PM6KrYVG2PIWSVeLWjpPD184VvHhHk4G8Z9/iPQ==", null, false, "42d9891c-58a4-45f0-b9db-3b880587d999", false, "NormalUser" }
+                    { "02174cf0–9412–4cfe-afbf-59f706d72cf6", 0, null, "29528a38-86e2-4258-bac0-91c60b89da14", "MainAdmin@email.com", true, "Admin", null, false, false, null, "MainAdmin@email.com", "MainAdmin@email.com", "AQAAAAEAACcQAAAAELD+7y6vfWqIzKQrjsvaJm9HZ4/53nlhWIf6soeAu2ozeaQfj90AByoiXkLt/VxkuA==", null, false, "7149f31a-f2db-4d0d-9c10-18ebea51c713", false, "MainAdmin@email.com" },
+                    { "c49c10c7-f5cb-4504-a528-c78a9012a457", 0, null, "2d7bc437-51bb-46b1-a102-bf32e9243780", "normaluser@email.com", true, null, null, false, false, null, "normaluser@email.com", "normaluser@email.com", "AQAAAAEAACcQAAAAEOUHKii9wRTYAtlwhxzmNS4+rfjgSVcYVZrm8/zQk7Qy+ockBeNq9RjzeCR0AuNh0Q==", null, false, "c770e10c-78b6-4a8b-9949-7dfc05e60732", false, "normaluser@email.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -397,6 +445,11 @@ namespace WebDevelopment_BCU.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_CategoryId",
+                table: "Product",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductImage_ProductId",
                 table: "ProductImage",
                 column: "ProductId");
@@ -435,6 +488,9 @@ namespace WebDevelopment_BCU.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "About");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -450,9 +506,6 @@ namespace WebDevelopment_BCU.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Category");
-
-            migrationBuilder.DropTable(
                 name: "News");
 
             migrationBuilder.DropTable(
@@ -460,6 +513,9 @@ namespace WebDevelopment_BCU.Migrations
 
             migrationBuilder.DropTable(
                 name: "ShoppingCartItem");
+
+            migrationBuilder.DropTable(
+                name: "Slider");
 
             migrationBuilder.DropTable(
                 name: "UserOrderDetails");
@@ -475,6 +531,9 @@ namespace WebDevelopment_BCU.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserOrders");
+
+            migrationBuilder.DropTable(
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

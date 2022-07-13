@@ -1,38 +1,42 @@
 ﻿@{
     ViewData["Title"] = "News Page";
 }
-@model WebDevelopment_BCU.Utility.ResultPagination<News>
+@model WebDevelopment_BCU.Models.ViewData.HomeData
 
 <section class="menu section-padding">
     <div class="container">
         <div class="row">
 
             <div class="col-12">
-                <h2 class="text-center mb-lg-5 mb-4">Category</h2>
+                <h2 class="text-center mb-lg-5 mb-4">News</h2>
             </div>
-            @foreach (var item in Model.ListData)
+            @foreach (var item in Model.News.ListData)
             {
                 <div class="col-lg-4 col-md-6 col-12">
-                <div class="menu-thumb">
-                    <div class="menu-image-wrap">
-                        <img src="@item.Image" class="img-fluid menu-image" alt="">
-                    </div>
+                    <div class="menu-thumb">
+                        <div class="menu-image-wrap">
+                            <img src="~/@item.Image" class="img-fluid menu-image" alt="">
+                        </div>
 
-                    <div class="menu-info d-flex flex-wrap align-items-center">
-                        <h2 class="mb-0">@item.Title</h2>
-                    </div>
-                    <div class="menu-info d-flex flex-wrap align-items-center">
-                        <h4 class="mb-0">@item.Caption</h4>
+                        <div class="menu-info d-flex flex-wrap align-items-center">
+                            <h2 class="mb-0">@item.Title</h2>
+                        </div>
+                        <div class="menu-info d-flex flex-wrap align-items-center">
+                            <h4 class="mb-0">@item.Caption</h4>
+                        </div>
+                        <form action="/News/Details" method="get">
+                            <input name="SearchKey" value="@item.Id" hidden />
+                            <button type="submit" class="btn btn-primary">Details</button>
+                        </form>
                     </div>
                 </div>
-            </div>
             }
         </div>
         <div class="pagination">
-            @if (Model.ListData != null)
+            @if (Model.News.ListData != null)
             {
                 <form action="/Category/Index" method="get">
-                    @for (int i = 0; i < Model.NumberOfPage; i++)
+                    @for (int i = 0; i < Model.News.NumberOfPage; i++)
                     {
                         var j = i + 1;
                         <input type="submit" class="btn btn-primary" name="Page" value="@j">

@@ -69,6 +69,20 @@ namespace WebDevelopment_BCU
                 }
             );
 
+
+            modelBuilder.Entity<About>().HasData(
+                new About
+                {
+                    Id = 1,
+                    FaceBookLink = "f",
+                    InstagramLink = "i",
+                    Location = "Loc",
+                    OpeningDay = "Monday - Friday",
+                    OpeningHour = "8Am - 4PM",
+                    Tel = "078",
+                    TwitterLink = "T"
+                }
+                );
         }
     }
 

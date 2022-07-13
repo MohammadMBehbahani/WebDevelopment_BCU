@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using WebDevelopment_BCU.Models;
+using WebDevelopment_BCU.Models.ViewData;
 using WebDevelopment_BCU.Utility;
 
 namespace WebDevelopment_BCU.Controllers
@@ -17,14 +19,15 @@ namespace WebDevelopment_BCU.Controllers
 
         public IActionResult Index(RequestGetList dto)
         {
-            var data = _context.Product.OrderByDescending(p => p.Id).AsQueryable();
+            var data = _context.Product.OrderByDescending(p => p.Id).Include(p => p.ProductImages).AsQueryable();
             var TotalCount = data.Count();
 
             if (!string.IsNullOrWhiteSpace(dto.SearchKey))
             {
                 data = data.Where(p => p.Description.Contains(dto.SearchKey)
                                         || p.Name.Contains(dto.SearchKey)
-                                        || p.Price.Equals(dto.SearchKey)
+                                        || p.Price == Convert.ToInt64(dto.SearchKey)
+                                        || p.CategoryId == Convert.ToInt64(dto.SearchKey)
 
                                         || p.Id.ToString().Equals(dto.SearchKey)).OrderByDescending(p => p.Id);
 
@@ -43,9 +46,34 @@ namespace WebDevelopment_BCU.Controllers
                 ListData = dataList
             };
 
-            return View(datafinal);
+            var finalData = new HomeData
+            {
+                About = _context.About.FirstOrDefault(),
+                Products = datafinal
+            };
+
+            return View(finalData);
         }
 
-        
+        public IActionResult Details(RequestGetList dto)
+        {
+
+            if (!string.IsNullOrWhiteSpace(dto.SearchKey))
+            {
+                if (_context.Product.FirstOrDefault(p => p.Id == Convert.ToInt64(dto.SearchKey)) == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                var finalData = new HomeData
+                {
+                    About = _context.About.FirstOrDefault(),
+                    Product = _context.Product.Include(p => p.ProductImages).FirstOrDefault(p=> p.Id == Convert.ToInt64(dto.SearchKey))
+                };
+
+                return View(finalData);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

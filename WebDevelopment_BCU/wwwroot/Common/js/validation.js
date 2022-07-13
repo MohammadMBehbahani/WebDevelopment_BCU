@@ -31,6 +31,31 @@ function validateForm() {
     return cansubmit;
 }
 
+function validateFormJs() {
+    var cansubmit = true;
+    $("input.validate").each(function () {
+        inputVal = $(this).val();
+        if (inputVal == "") {
+            //set error
+            cansubmit = false;
+
+            setErrorForJs($(this), $(this).attr('id') + ' is required.');
+        }
+    });
+    return cansubmit;
+}
+
+
+function setErrorForJs(input, message) {
+    var small = '<small id="errinput" class="text-danger">' + message + '<small>';
+    
+
+    $("#errinput").remove();
+
+    input.after(small);
+
+    $("#errinput").slideUp(10000)
+}
 
 
 function setErrorFor(input, message) {

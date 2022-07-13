@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using WebDevelopment_BCU.Models;
 using WebDevelopment_BCU.Models.Dto;
+using WebDevelopment_BCU.Models.ViewData;
 
 namespace WebDevelopment_BCU.Controllers
 {
@@ -11,16 +13,23 @@ namespace WebDevelopment_BCU.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly DataBaseContext _context;
 
-        public LoginController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public LoginController(UserManager<User> userManager, SignInManager<User> signInManager, DataBaseContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var finalData = new HomeData
+            {
+                About = _context.About.FirstOrDefault()
+            };
+
+            return View(finalData);
         }
         [HttpPost]
         public async Task<IActionResult> Index(Login Input)
@@ -75,7 +84,13 @@ namespace WebDevelopment_BCU.Controllers
 				return RedirectToAction(nameof(Index));
 
 			}
-			
+
+            if (_context.Users.Any(p=>p.UserName == Input.Email))
+            {
+                TempData["ErrorRegister"] = "UserName already exist";
+                return RedirectToAction(nameof(Index));
+            }
+
 			var userItem = new User
 			{
 				UserName = Input.Email.ToString(),

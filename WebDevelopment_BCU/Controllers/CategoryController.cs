@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using WebDevelopment_BCU.Models;
+using WebDevelopment_BCU.Models.ViewData;
 using WebDevelopment_BCU.Utility;
 
 namespace WebDevelopment_BCU.Controllers
@@ -44,7 +45,15 @@ namespace WebDevelopment_BCU.Controllers
                 ListData = dataList
             };
 
-            return View(datafinal);
+
+
+            var finalData = new HomeData
+            {
+                About = _context.About.FirstOrDefault(),
+                Category = datafinal
+            };
+
+            return View(finalData);
         }
     }
 }

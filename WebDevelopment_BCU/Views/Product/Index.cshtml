@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Product Page";
 }
-@model WebDevelopment_BCU.Utility.ResultPagination<Product>
+@model WebDevelopment_BCU.Models.ViewData.HomeData
 
 @section Style{
     <link rel="stylesheet" href="~/Client/Asset/Css/Slider.css">
@@ -48,18 +48,31 @@
     var w = 3;
     var q = 0;
 
-    foreach (var item in Model.ListData.Skip(q).Take(w))
+    foreach (var item in Model.Products.ListData.Skip(q).Take(w))
     {
         <div class="MyRow">
-            @foreach (var item2 in Model.ListData.Skip(q).Take(w))
+            @foreach (var item2 in Model.Products.ListData.Skip(q).Take(w))
             {
                 <div class="MyColumn">
                     <div class="card">
-                        <img src="https://www.w3schools.com/howto/img_mountains_wide.jpg" alt="Denim Jeans" style="width:100%">
+                        @if (item2.ProductImages == null)
+                        {
+                            <img src="https://www.yiwubazaar.com/resources/assets/images/default-product.jpg" style="width:100%">
+                        }
+                        else
+                        {
+                            <img src="~/@item2.ProductImages.FirstOrDefault().Src" style="height:200px;width:300px">
+                        }
+
                         <h1>@item2.Name</h1>
                         <p class="price">$@item2.Price</p>
                         <p>@item2.Description</p>
-                        <p><button>Add to Cart</button></p>
+                        <input class="form-controll" type="number" value="1" min="1" id="Count_@item2.Id" />
+                        <p><button onclick="AddToBasket(@item2.Id)">Add to Cart</button></p>
+                        <form action="/Product/Details" method="get">
+                            <input name="SearchKey" value="@item2.Id" hidden />
+                            <button type="submit" class="btn btn-primary">Details</button>
+                        </form>
                     </div>
                 </div>
             }
@@ -69,10 +82,10 @@
 }
 
 <div class="pagination">
-    @if (Model.ListData != null)
+    @if (Model.Products != null)
     {
         <form action="/Product/Index" method="get">
-            @for (int i = 0; i < Model.NumberOfPage; i++)
+            @for (int i = 0; i < Model.Products.NumberOfPage; i++)
             {
                 var j = i + 1;
                 <input type="submit" class="btn btn-primary" name="Page" value="@j">

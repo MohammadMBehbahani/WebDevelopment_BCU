@@ -1,4 +1,6 @@
-﻿<!doctype html>
+﻿@model WebDevelopment_BCU.Models.ViewData.HomeData
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -7,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mohammad Moghadaszadeh Behbahani">
 
-    <title>Kitchen</title>
+    <title>@ViewData["Title"]</title>
 
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +22,7 @@
     <link href="~/Client/Asset/Css/bootstrap.min.css" rel="stylesheet">
     <link href="~/Client/Asset/Css/bootstrap-icons.css" rel="stylesheet">
     <link href="~/Client/Asset/Css/Custom.css" rel="stylesheet">
-    <link href="~/Common/Css/Custom.css" rel="stylesheet"/>
+    <link href="~/Common/Css/Custom.css" rel="stylesheet" />
     @await RenderSectionAsync("Style", required: false)
 
 
@@ -34,13 +36,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/Home/Index">
                 Kitchen
             </a>
 
-           @* <div class="d-lg-none">
-                <button type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#BookingModal">Reservation</button>
-            </div>*@
+            <div class="d-lg-none">
+                <a href="/UserBasket/Index" class="custom-btn btn btn-danger fa fa-shopping-cart"> Basket</a>
+            </div>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
@@ -65,23 +67,29 @@
                                 <a class="nav-link" href="/Login/Index">Login</a>
                             </li>
                         }
-                        else
+                        else if(User.Claims.Any(p=>p.Value.Contains("Admin")))
                         {
                             <li>
-                                <a href="~/User/Index" class="nav-link">Profile</a>
+                                <a href="~/Admin/Home/Index" class="nav-link">Profile</a>
+                            </li>
+                        }
+                        else
+                        {
+                             <li>
+                                <a href="~/UserProfile/Index" class="nav-link">Profile</a>
                             </li>
                         }
                     }
 
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
+                        <a class="nav-link" href="/News/Index">News</a>
                     </li>
                 </ul>
             </div>
 
-            @*<div class="d-none d-lg-block">
-                <button type="button" class="custom-btn btn btn-danger" data-bs-toggle="modal" data-bs-target="#BookingModal">Reservation</button>
-            </div>*@
+            <div class="d-none d-lg-block">
+                <a href="/UserBasket/Index" class="custom-btn btn btn-danger fa fa-shopping-cart"> Basket</a>
+            </div>
 
         </div>
     </nav>
@@ -103,33 +111,32 @@
                 <div class="col-lg-4 col-md-7 col-xs-12 tooplate-mt30">
                     <h6 class="text-white mb-lg-4 mb-3">Location</h6>
 
-                    <p>121 Einstein Loop N, Bronx, NY 10475, United States</p>
+                    <p>@Model.About.Location</p>
                 </div>
 
                 <div class="col-lg-4 col-md-5 col-xs-12 tooplate-mt30">
                     <h6 class="text-white mb-lg-4 mb-3">Opening Hours</h6>
 
-                    <p class="mb-2">Monday - Friday</p>
+                    <p class="mb-2">@Model.About.OpeningDay</p>
 
-                    <p>10:00 AM - 08:00 PM</p>
+                    <p>@Model.About.OpeningHour</p>
 
-                    <p>Tel: <a href="tel: 010-02-0340" class="tel-link">010-02-0340</a></p>
+                    <p>Tel: <a href="tel: @Model.About.Tel" class="tel-link">@Model.About.Tel</a></p>
                 </div>
 
                 <div class="col-lg-4 col-md-6 col-xs-12 tooplate-mt30">
                     <h6 class="text-white mb-lg-4 mb-3">Social</h6>
 
                     <ul class="social-icon">
-                        <li><a href="#" class="social-icon-link bi-facebook"></a></li>
+                        <li><a href="@Model.About.FaceBookLink" class="social-icon-link bi-facebook"></a></li>
 
-                        <li><a href="#" class="social-icon-link bi-instagram"></a></li>
+                        <li><a href="@Model.About.InstagramLink" class="social-icon-link bi-instagram"></a></li>
 
                         <li>
-                            <a href="https://twitter.com/search?q=tooplate.com&src=typed_query&f=live" target="_blank"
+                            <a href="@Model.About.TwitterLink" target="_blank"
                                class="social-icon-link bi-twitter"></a>
                         </li>
 
-                        <li><a href="#" class="social-icon-link bi-youtube"></a></li>
                     </ul>
 
                     <p class="copyright-text tooplate-mt60">
@@ -148,6 +155,10 @@
     <script src="~/Client/Asset/Js/jquery.min.js"></script>
     <script src="~/Client/Asset/Js/bootstrap.bundle.min.js"></script>
     <script src="~/Client/Asset/Js/custom.js"></script>
+    <script src="~/Common/js/library.js"></script>
+    <script src="~/Common/js/sweetalert.min.js"></script>
+    <script src="~/Common/js/Basket.js"></script>
+
     @await RenderSectionAsync("Script", required: false)
 </body>
 </html>

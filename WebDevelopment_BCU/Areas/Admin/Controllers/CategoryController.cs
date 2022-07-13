@@ -46,8 +46,13 @@ namespace WebDevelopment_BCU.Areas.Admin.Controllers
                 {
                     dto.Image = prdata.Image;
                 }
+                else
+                {
+                    prdata.Image = dto.Image;
+
+                }
                 dto.InserDate = prdata.InserDate;
-                _context.Category.Update(dto);
+                prdata.Name = dto.Name;
             }
             await _context.SaveChangesAsync();
             return Ok();

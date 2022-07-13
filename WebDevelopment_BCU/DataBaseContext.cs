@@ -12,6 +12,7 @@ namespace WebDevelopment_BCU
         {
         }
         public virtual DbSet<About> About { get; set; }
+        public virtual DbSet<Slider> Slider { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Product> Product { get; set; }

@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Product Detail Page";
+}
+@model WebDevelopment_BCU.Models.ViewData.HomeData
+
+
+<header class="site-header site-news-detail-header">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12">
+                <h2>@Model.Product.Name</h2>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<section class="news-detail section-padding pt-0">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-12">
+                @if (Model.Product.ProductImages == null)
+                {
+                    <img src="https://www.yiwubazaar.com/resources/assets/images/default-product.jpg" class="img-fluid news-detail-image">
+                }
+                else
+                {
+                    <img src="~/@Model.Product.ProductImages.FirstOrDefault().Src" class="img-fluid news-detail-image" >
+                }
+                <div class="col-lg-10 col-10 mx-auto mt-5">
+
+                    <h4 class="mb-3">$@Model.Product.Price</h4>
+                    <h4 class="mb-3">@Model.Product.Quantity</h4>
+
+                    <p>@Model.Product.Description</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+

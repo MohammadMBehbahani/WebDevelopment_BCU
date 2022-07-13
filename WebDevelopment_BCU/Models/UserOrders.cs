@@ -8,7 +8,7 @@ namespace WebDevelopment_BCU.Models
     {
         public string UserId { get; set; }
         public virtual User User { get; set; }
-        public string UserOrderCode { get; set; } = new Guid().ToString();
+        public string UserOrderCode { get; set; } = new Random().Next().ToString();
         public DateTime DateRequest { get; set; }
         public DateTime? DateDelivery { get; set; }
         public int Status{ get; set; }

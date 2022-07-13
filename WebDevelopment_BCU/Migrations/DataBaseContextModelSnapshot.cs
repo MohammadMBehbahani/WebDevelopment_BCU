@@ -182,6 +182,56 @@ namespace WebDevelopment_BCU.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("WebDevelopment_BCU.Models.About", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FaceBookLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InserDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InstagramLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OpeningDay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OpeningHour")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TwitterLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("About");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            FaceBookLink = "f",
+                            InserDate = new DateTime(2022, 7, 7, 13, 20, 48, 135, DateTimeKind.Local).AddTicks(7611),
+                            InstagramLink = "i",
+                            Location = "Loc",
+                            OpeningDay = "Monday - Friday",
+                            OpeningHour = "8Am - 4PM",
+                            Tel = "078",
+                            TwitterLink = "T"
+                        });
+                });
+
             modelBuilder.Entity("WebDevelopment_BCU.Models.Category", b =>
                 {
                     b.Property<long>("Id")
@@ -216,6 +266,9 @@ namespace WebDevelopment_BCU.Migrations
                     b.Property<string>("Caption")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("InserDate")
                         .HasColumnType("datetime2");
 
@@ -237,6 +290,9 @@ namespace WebDevelopment_BCU.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -244,7 +300,9 @@ namespace WebDevelopment_BCU.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -253,6 +311,8 @@ namespace WebDevelopment_BCU.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
                 });
@@ -299,7 +359,7 @@ namespace WebDevelopment_BCU.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<long?>("UserBasketId")
+                    b.Property<long>("UserBasketId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -309,6 +369,30 @@ namespace WebDevelopment_BCU.Migrations
                     b.HasIndex("UserBasketId");
 
                     b.ToTable("ShoppingCartItem");
+                });
+
+            modelBuilder.Entity("WebDevelopment_BCU.Models.Slider", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InserDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slider");
                 });
 
             modelBuilder.Entity("WebDevelopment_BCU.Models.User", b =>
@@ -392,36 +476,36 @@ namespace WebDevelopment_BCU.Migrations
                         {
                             Id = "02174cf0–9412–4cfe-afbf-59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4754208e-00c7-44e8-a86c-4e20dfbd5ee8",
+                            ConcurrencyStamp = "29528a38-86e2-4258-bac0-91c60b89da14",
                             Email = "MainAdmin@email.com",
                             EmailConfirmed = true,
                             FullName = "Admin",
                             IsDefault = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "MainAdmin@email.com",
-                            NormalizedUserName = "MainAdmin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMSbqtmWuAb/UojfsN/N01AmMM1VRV4A4YwvdxlXYFLmLGux8B56PrA9I3XIAqzIMA==",
+                            NormalizedUserName = "MainAdmin@email.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAELD+7y6vfWqIzKQrjsvaJm9HZ4/53nlhWIf6soeAu2ozeaQfj90AByoiXkLt/VxkuA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fdc70560-de47-4df7-85fb-4dd4c3632866",
+                            SecurityStamp = "7149f31a-f2db-4d0d-9c10-18ebea51c713",
                             TwoFactorEnabled = false,
-                            UserName = "MainAdmin"
+                            UserName = "MainAdmin@email.com"
                         },
                         new
                         {
                             Id = "c49c10c7-f5cb-4504-a528-c78a9012a457",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d614194a-d225-4a97-a5d8-67a971c86a04",
+                            ConcurrencyStamp = "2d7bc437-51bb-46b1-a102-bf32e9243780",
                             Email = "normaluser@email.com",
                             EmailConfirmed = true,
                             IsDefault = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "normaluser@email.com",
-                            NormalizedUserName = "normaluser",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPXKg9cLCyXMHmP8q1o+0+xy2N3PM6KrYVG2PIWSVeLWjpPD184VvHhHk4G8Z9/iPQ==",
+                            NormalizedUserName = "normaluser@email.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOUHKii9wRTYAtlwhxzmNS4+rfjgSVcYVZrm8/zQk7Qy+ockBeNq9RjzeCR0AuNh0Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "42d9891c-58a4-45f0-b9db-3b880587d999",
+                            SecurityStamp = "c770e10c-78b6-4a8b-9949-7dfc05e60732",
                             TwoFactorEnabled = false,
-                            UserName = "NormalUser"
+                            UserName = "normaluser@email.com"
                         });
                 });
 
@@ -434,9 +518,6 @@ namespace WebDevelopment_BCU.Migrations
 
                     b.Property<DateTime>("InserDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -562,6 +643,17 @@ namespace WebDevelopment_BCU.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebDevelopment_BCU.Models.Product", b =>
+                {
+                    b.HasOne("WebDevelopment_BCU.Models.Category", "Category")
+                        .WithMany("Product")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("WebDevelopment_BCU.Models.ProductImage", b =>
                 {
                     b.HasOne("WebDevelopment_BCU.Models.Product", "Product")
@@ -583,7 +675,9 @@ namespace WebDevelopment_BCU.Migrations
 
                     b.HasOne("WebDevelopment_BCU.Models.UserBasket", null)
                         .WithMany("Items")
-                        .HasForeignKey("UserBasketId");
+                        .HasForeignKey("UserBasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
@@ -623,6 +717,11 @@ namespace WebDevelopment_BCU.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebDevelopment_BCU.Models.Category", b =>
+                {
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WebDevelopment_BCU.Models.Product", b =>

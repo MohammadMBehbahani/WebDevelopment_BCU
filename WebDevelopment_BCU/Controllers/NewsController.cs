@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using WebDevelopment_BCU.Models;
+using WebDevelopment_BCU.Models.ViewData;
 using WebDevelopment_BCU.Utility;
 
 namespace WebDevelopment_BCU.Controllers
@@ -45,7 +46,34 @@ namespace WebDevelopment_BCU.Controllers
                 ListData = dataList
             };
 
-            return View(datafinal);
+            var finalData = new HomeData
+            {
+                About = _context.About.FirstOrDefault(),
+                News = datafinal
+            };
+
+            return View(finalData);
+        }
+
+        public IActionResult Details(RequestGetList dto)
+        {
+
+            if (!string.IsNullOrWhiteSpace(dto.SearchKey))
+            {
+                if (_context.News.FirstOrDefault(p => p.Id == Convert.ToInt64(dto.SearchKey)) == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                var finalData = new HomeData
+                {
+                    About = _context.About.FirstOrDefault(),
+                    NewsDetail = _context.News.FirstOrDefault(p => p.Id == Convert.ToInt64(dto.SearchKey))
+                };
+
+                return View(finalData);
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebDevelopment_BCU.Areas.Admin.Model.Vm;
 using WebDevelopment_BCU.Models;
 using WebDevelopment_BCU.Utility;
 
@@ -24,14 +26,14 @@ namespace WebDevelopment_BCU.Areas.Admin.Controllers
 
         public IActionResult Index(RequestGetList dto)
         {
-            ResultPagination<Product> datafinal = GetData(dto);
+            ProductData datafinal = GetData(dto);
 
             return View(datafinal);
         }
 
-        private ResultPagination<Product> GetData(RequestGetList dto)
+        private ProductData GetData(RequestGetList dto)
         {
-            var data = _context.Product.OrderByDescending(p => p.Id).AsQueryable();
+            var data = _context.Product.OrderByDescending(p => p.Id).Include(p=>p.ProductImages).AsQueryable();
             var TotalCount = data.Count();
 
             if (!string.IsNullOrWhiteSpace(dto.SearchKey))
@@ -56,8 +58,17 @@ namespace WebDevelopment_BCU.Areas.Admin.Controllers
                 TotalCount = TotalCount,
                 ListData = dataList
             };
-            return datafinal;
+
+            var finaldata = new ProductData
+            {
+                CategoryList = _context.Category.ToList(),
+                ProductList = datafinal
+            };
+
+            return finaldata;
         }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> Index(Product dto, List<IFormFile> files)
@@ -68,6 +79,8 @@ namespace WebDevelopment_BCU.Areas.Admin.Controllers
                 {
                     //add
                     await _context.Product.AddAsync(dto);
+                    await _context.SaveChangesAsync();
+
                     foreach (var file in files)
                     {
                         var resultUpload = new UploadFile(_environment).UploadFileFunction(file, @"Product\");
@@ -85,10 +98,16 @@ namespace WebDevelopment_BCU.Areas.Admin.Controllers
                 else
                 {
                     //update
-                    var prdata = await _context.Category.FindAsync(dto.Id);
+                    var prdata = await _context.Product.FindAsync(dto.Id);
                     dto.InserDate = prdata.InserDate;
+                    prdata.CategoryId = dto.CategoryId;
+                    prdata.Description = dto.Description;
+                    prdata.Price = dto.Price;
+                    prdata.Name = dto.Name;
+                    prdata.Quantity = dto.Quantity;
 
-                    _context.Product.Update(dto);
+
+
                     foreach (var file in files)
                     {
                         var resultUpload = new UploadFile(_environment).UploadFileFunction(file, @"Product\");
@@ -112,7 +131,7 @@ namespace WebDevelopment_BCU.Areas.Admin.Controllers
             ModelState.AddModelError("CustomError", $"Error : " + $"{Key} is required");
             RequestGetList resultdto = new();
 
-            ResultPagination<Product> datafinal = GetData(resultdto);
+            ProductData datafinal = GetData(resultdto);
 
             return View(datafinal);
 

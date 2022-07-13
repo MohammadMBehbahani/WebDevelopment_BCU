@@ -37,19 +37,14 @@
 
             <ul class="nav navbar-top-links navbar-right">
 
-                <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>John Doe</b> <i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-button waves-effect waves-dark" href="#!" data-activates="dropdown1"><i class="fa fa-user fa-fw"></i> <b>@User.Identity.Name</b> <i class="material-icons right">arrow_drop_down</i></a></li>
             </ul>
         </nav>
         <!-- Dropdown Structure -->
         <ul id="dropdown1" class="dropdown-content">
+           
             <li>
-                <a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                <a href="/Login/Logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
             </li>
         </ul>
 
@@ -59,7 +54,13 @@
                 <ul class="nav" id="main-menu">
 
                     <li>
-                        <a class="active-menu waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        <a class="active-menu waves-effect waves-dark" href="/Admin/Home/Index"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        <a class="active-menu waves-effect waves-dark" href="/Admin/About/Index"><i class="fa fa-dashboard"></i> About</a>
+                        <a class="active-menu waves-effect waves-dark" href="/Admin/Category/Index"><i class="fa fa-dashboard"></i> Category</a>
+                        <a class="active-menu waves-effect waves-dark" href="/Admin/News/Index"><i class="fa fa-dashboard"></i> News</a>
+                        <a class="active-menu waves-effect waves-dark" href="/Admin/Product/Index"><i class="fa fa-dashboard"></i> Product</a>
+                        <a class="active-menu waves-effect waves-dark" href="/Admin/Slider/Index"><i class="fa fa-dashboard"></i> Slider</a>
+                        <a class="active-menu waves-effect waves-dark" href="/Admin/User/Index"><i class="fa fa-dashboard"></i> User</a>
                     </li>
 
                 </ul>
@@ -119,6 +120,7 @@
     <script src="~/Admin/assets/js/custom-scripts.js"></script> 
     <script src="~/Common/js/library.js"></script>
     <script src="~/Common/js/sweetalert.min.js"></script>
+    <script src="~/Common/js/validation.js"></script>
 
     @await RenderSectionAsync("Script", required: false)
 

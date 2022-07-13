@@ -2,15 +2,18 @@
     ViewData["Title"] = "Poduct Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-@model WebDevelopment_BCU.Utility.ResultPagination<WebDevelopment_BCU.Models.Product>
+@model WebDevelopment_BCU.Areas.Admin.Model.Vm.ProductData
 
 <div class="card">
     <div class="card-action">
         Register Form
     </div>
     <div class="card-content">
-        <form method="post" action="/Admin/Product/Index" class="col s12">
+        <form method="post" enctype="multipart/form-data" action="/Admin/Product/Index" class="col s12">
             <div class="row">
+
+                <input id="Id" name="Id" value="0" hidden>
+
 
                 <div class="input-field col s6">
                     <input id="Name" name="Name" type="text" class="validate">
@@ -28,8 +31,18 @@
                     <span asp-validation-for="Model.FirstName" class="text-danger"></span>
                 </div>
                 <div class="input-field col s6">
-                    <input id="file" name="file" multiple type="file" class="validate">
+                    <input id="file" name="files" multiple type="file" class="validate">
                 </div>
+
+                <div class="input-field col s6">
+                    <select id="CategoryId" name="CategoryId" class="form-control">
+                        @foreach (var item in Model.CategoryList)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+
                 <div class="input-field col s12">
                     <input id="Price" name="Price" type="text" class="validate">
                     <label for="Price">Price</label>
@@ -88,11 +101,20 @@
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach (var item in Model.ListData)
+                            <tbody id="tbl_body">
+                                @foreach (var item in Model.ProductList.ListData)
                                 {
                                     <tr class="gradeA">
-                                        @*<td><img src="~/@item.ProductImages.FirstOrDefault().Src" class="responsive-img img-rounded" style="width:150px" /></td>*@
+                                        @if (item.ProductImages != null)
+                                        {
+                                            <td><img src="~/@item.ProductImages.FirstOrDefault().Src" class="responsive-img img-rounded" style="width:150px" /></td>
+
+                                        }
+                                        else
+                                        {
+
+                                            <td><img src="https://www.yiwubazaar.com/resources/assets/images/default-product.jpg" class="responsive-img img-rounded" style="width:150px" /></td>
+                                        }
                                         <td>@item.Name</td>
                                         <td>@item.Description</td>
                                         <td>@item.Price</td>
@@ -105,6 +127,7 @@
                                                 itemDescription="@item.Description"
                                                 itemPrice="@item.Price"
                                                 itemQuantity="@item.Quantity"
+                                                itemCategoryId="@item.CategoryId"
                                                 onclick="edit_data(this)"></button>
                                             <button class="btn btn-outline btn-danger fa fa-trash-o" onclick="delete_data(@item.Id)"></button>
                                         </td>
@@ -115,10 +138,10 @@
                         </table>
                     </div>
                     <div class="pagination">
-                        @if (Model.ListData != null)
+                        @if (Model.ProductList.ListData != null)
                         {
                             <form action="/Admin/Product/Index" method="get">
-                                @for (int i = 0; i < Model.NumberOfPage; i++)
+                                @for (int i = 0; i < Model.ProductList.NumberOfPage; i++)
                                 {
                                     var j = i + 1;
                                     <input type="submit" class="btn btn-primary" name="Page" value="@j">
@@ -135,17 +158,20 @@
 
 @section Script{
     <script>
+        search_tbl("SearchKey", "tbl_body");
 
         function edit_data(item) {
+            Id.value = item.id;
             Name.value = item.getAttribute('itemName');
             Description.value = item.getAttribute('itemDescription');
             Price.value = item.getAttribute('itemPrice');
             Quantity.value = item.getAttribute('itemQuantity');
+            CategoryId.value = item.getAttribute('itemCategoryId');
         }
 
         function delete_data(id) {
             confirm_ajax("Are You Sure?", "By click ok data will be deleted permenantly !!", "warning", function() {
-                b_ajax("/Admin/Category/Delete", "Delete", { id: id }, function(data) {
+                b_ajax("/Admin/Product/Delete", "Delete", { id: id }, function(data) {
                     setTimeout(() => {
                         location.reload();
                     }, 2000)

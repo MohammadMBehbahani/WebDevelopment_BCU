@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "Category Page";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<WebDevelopment_BCU.Models.About>
+
+<div class="card">
+    <div class="card-action">
+        Register Form
+    </div>
+    <div class="card-content">
+        <form class="col s12">
+            <div class="row">
+
+                <div class="input-field col s6">
+                    <input id="FaceBookLink" type="text" class="validate">
+                    <label for="FaceBookLink">FaceBookLink</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="InstagramLink" type="text" class="validate">
+                    <label for="InstagramLink">InstagramLink</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="TwitterLink" type="text" class="validate">
+                    <label for="TwitterLink">TwitterLink</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="LocationAbout" type="text" class="validate">
+                    <label for="LocationAbout">Location</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="OpeningHour" type="text" class="validate">
+                    <label for="OpeningHour">OpeningHour</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="OpeningDay" type="text" class="validate">
+                    <label for="OpeningDay">OpeningDay</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="Tel" type="text" class="validate">
+                    <label for="Tel">Tel</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" onclick="register()">Register</button>
+            </div>
+
+        </form>
+        <div class="clearBoth"></div>
+    </div>
+</div>
+
+<div class="dashboard-cards">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Advanced Tables -->
+            <div class="card">
+                <div class="card-action">
+                    Advanced Tables
+                </div>
+                <div class="card-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>FaceBookLink</th>
+                                    <th>InstagramLink</th>
+                                    <th>TwitterLink</th>
+                                    <th>Location</th>
+                                    <th>OpeningHour</th>
+                                    <th>OpeningDay</th>
+                                    <th>Tel</th>
+                                    <th>InserDate</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="gradeA">
+                                        <td>@item.FaceBookLink</td>
+                                        <td>@item.InstagramLink</td>
+                                        <td>@item.TwitterLink</td>
+                                        <td>@item.Location</td>
+                                        <td>@item.OpeningHour</td>
+                                        <td>@item.OpeningDay</td>
+                                        <td>@item.Tel</td>
+                                        <td>@item.InserDate</td>
+                                        <td>
+                                            <button class="btn btn-outline btn-primary fa fa-edit"
+                                                id="@item.Id"
+                                                itemFaceBookLink="@item.FaceBookLink"
+                                                itemInstagramLink="@item.InstagramLink"
+                                                itemTwitterLink="@item.TwitterLink"
+                                                itemLocation="@item.Location"
+                                                itemOpeningHour="@item.OpeningHour"
+                                                itemOpeningDay="@item.OpeningDay"
+                                                itemTel="@item.Tel"
+                                                onclick="edit_data_ss(this)"></button>
+                                            <button class="btn btn-outline btn-danger fa fa-trash-o" onclick="delete_data(@item.Id)"></button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!--End Advanced Tables -->
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        function mdata(Id, FaceBookLink, InstagramLink, TwitterLink, Location, OpeningHour, OpeningDay, Tel) {
+            this.Id = Id;
+            this.FaceBookLink = FaceBookLink;
+            this.InstagramLink = InstagramLink;
+            this.TwitterLink = TwitterLink;
+            this.Location = Location;
+            this.OpeningHour = OpeningHour;
+            this.OpeningDay = OpeningDay;
+            this.Tel = Tel;
+        }
+        var _mdata = new mdata(0, "", "", "", "", "", "", "");
+
+        function register() {
+            
+                _mdata.FaceBookLink = FaceBookLink.value;
+                _mdata.InstagramLink = InstagramLink.value;
+                _mdata.TwitterLink = TwitterLink.value;
+                _mdata.Location = LocationAbout.value;
+                _mdata.OpeningHour = OpeningHour.value;
+                _mdata.OpeningDay = OpeningDay.value;
+                _mdata.Tel = Tel.value;
+
+
+
+                var formdata = new FormData();
+
+                formdata.append("Id", _mdata.Id);
+                formdata.append("FaceBookLink", _mdata.FaceBookLink);
+                formdata.append("InstagramLink", _mdata.InstagramLink);
+                formdata.append("TwitterLink", _mdata.TwitterLink);
+                formdata.append("Location", _mdata.Location);
+                formdata.append("OpeningHour", _mdata.OpeningHour);
+                formdata.append("OpeningDay", _mdata.OpeningDay);
+                formdata.append("Tel", _mdata.Tel);
+
+
+                b_file_ajax("/Admin/About/Post", "Post", formdata, function() {
+                    _mdata.Id = 0;
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000)
+                }, "ok");
+            }
+        
+
+        function edit_data_ss(item) {
+            _mdata.Id = item.id;
+            FaceBookLink.value = item.getAttribute('itemFaceBookLink');
+            InstagramLink.value = item.getAttribute('itemInstagramLink');
+            TwitterLink.value = item.getAttribute('itemTwitterLink');
+            LocationAbout.value = item.getAttribute('itemLocation');
+            OpeningHour.value = item.getAttribute('itemOpeningHour');
+            OpeningDay.value = item.getAttribute('itemOpeningDay');
+            Tel.value = item.getAttribute('itemTel');
+        }
+
+        function delete_data(id) {
+            confirm_ajax("Are You Sure?", "By click ok data will be deleted permenantly !!", "warning", function() {
+                b_ajax("/Admin/About/Delete", "Delete", { id: id }, function(data) {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000)
+                }, "Ok");
+            })
+        }
+    </script>
+}
